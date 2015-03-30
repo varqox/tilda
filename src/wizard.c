@@ -229,7 +229,7 @@ static void initialize_geometry_spinners(void);
 static void wizard_hide_deprecated_options(void);
 #endif
 
-static gint find_monitor_number(tilda_window *tw)
+gint find_monitor_number(tilda_window *tw)
 {
     DEBUG_FUNCTION ("find_monitor_number");
 
@@ -1304,12 +1304,12 @@ static void spin_height_percentage_value_changed_cb (GtkWidget *w)
 
     config_setint ("max_height", h_pix);
     set_spin_value_while_blocking_callback (GTK_SPIN_BUTTON(spin_height_pixels), &spin_height_pixels_value_changed_cb, h_pix);
-    gtk_window_resize (GTK_WINDOW(tw->window), config_getint ("max_width"), config_getint ("max_height"));
 
     if (config_getbool ("centered_vertically")) {
         config_setint ("y_pos", find_centering_coordinate (tw, HEIGHT));
-        gtk_window_move (GTK_WINDOW(tw->window), config_getint ("x_pos"), config_getint ("y_pos"));
     }
+
+    tilda_window_reposition(tw);
 
     /* Always regenerate animation positions when changing x or y position!
      * Otherwise you get VERY strange things going on :) */
@@ -1326,12 +1326,12 @@ static void spin_height_pixels_value_changed_cb (GtkWidget *w)
 
     config_setint ("max_height", h_pix);
     set_spin_value_while_blocking_callback (GTK_SPIN_BUTTON(spin_height_percentage), &spin_height_percentage_value_changed_cb, h_pct);
-    gtk_window_resize (GTK_WINDOW(tw->window), config_getint ("max_width"), config_getint ("max_height"));
 
     if (config_getbool ("centered_vertically")) {
         config_setint ("y_pos", find_centering_coordinate (tw, HEIGHT));
-        gtk_window_move (GTK_WINDOW(tw->window), config_getint ("x_pos"), config_getint ("y_pos"));
     }
+
+    tilda_window_reposition(tw);
 
     /* Always regenerate animation positions when changing x or y position!
      * Otherwise you get VERY strange things going on :) */
@@ -1348,12 +1348,12 @@ static void spin_width_percentage_value_changed_cb (GtkWidget *w)
 
     config_setint ("max_width", w_pix);
     set_spin_value_while_blocking_callback (GTK_SPIN_BUTTON(spin_width_pixels), &spin_width_pixels_value_changed_cb, w_pix);
-    gtk_window_resize (GTK_WINDOW(tw->window), config_getint ("max_width"), config_getint ("max_height"));
 
     if (config_getbool ("centered_horizontally")) {
         config_setint ("x_pos", find_centering_coordinate (tw, WIDTH));
-        gtk_window_move (GTK_WINDOW(tw->window), config_getint ("x_pos"), config_getint ("y_pos"));
     }
+
+    tilda_window_reposition(tw);
 
     /* Always regenerate animation positions when changing x or y position!
      * Otherwise you get VERY strange things going on :) */
@@ -1371,12 +1371,12 @@ static void spin_width_pixels_value_changed_cb (GtkWidget *w)
     config_setint ("max_width", w_pix);
     set_spin_value_while_blocking_callback (GTK_SPIN_BUTTON(spin_width_percentage),
         &spin_width_percentage_value_changed_cb, w_pct);
-    gtk_window_resize (GTK_WINDOW(tw->window), config_getint ("max_width"), config_getint ("max_height"));
 
     if (config_getbool ("centered_horizontally")) {
         config_setint ("x_pos", find_centering_coordinate (tw, WIDTH));
-        gtk_window_move (GTK_WINDOW(tw->window), config_getint ("x_pos"), config_getint ("y_pos"));
     }
+
+    tilda_window_reposition(tw);
 
     /* Always regenerate animation positions when changing x or y position!
      * Otherwise you get VERY strange things going on :) */
@@ -1401,7 +1401,7 @@ static void check_centered_horizontally_toggled_cb (GtkWidget *w)
     gtk_widget_set_sensitive (GTK_WIDGET(label_x_position), !active);
     gtk_widget_set_sensitive (GTK_WIDGET(spin_x_position), !active);
 
-    gtk_window_move (GTK_WINDOW(tw->window), config_getint ("x_pos"), config_getint ("y_pos"));
+    tilda_window_reposition(tw);
 
     /* Always regenerate animation positions when changing x or y position!
      * Otherwise you get VERY strange things going on :) */
@@ -1414,7 +1414,8 @@ static void spin_x_position_value_changed_cb (GtkWidget *w)
     const gint y_pos = config_getint ("y_pos");
 
     config_setint ("x_pos", x_pos);
-    gtk_window_move (GTK_WINDOW(tw->window), x_pos, y_pos);
+
+    tilda_window_reposition(tw);
 
     /* Always regenerate animation positions when changing x or y position!
      * Otherwise you get VERY strange things going on :) */
@@ -1439,7 +1440,7 @@ static void check_centered_vertically_toggled_cb (GtkWidget *w)
     gtk_widget_set_sensitive (GTK_WIDGET(label_y_position), !active);
     gtk_widget_set_sensitive (GTK_WIDGET(spin_y_position), !active);
 
-    gtk_window_move (GTK_WINDOW(tw->window), config_getint ("x_pos"), config_getint ("y_pos"));
+    tilda_window_reposition(tw);
 
     /* Always regenerate animation positions when changing x or y position!
      * Otherwise you get VERY strange things going on :) */
@@ -1452,7 +1453,8 @@ static void spin_y_position_value_changed_cb (GtkWidget *w)
     const gint y_pos = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(w));
 
     config_setint ("y_pos", y_pos);
-    gtk_window_move (GTK_WINDOW(tw->window), x_pos, y_pos);
+
+    tilda_window_reposition(tw);
 
     /* Always regenerate animation positions when changing x or y position!
      * Otherwise you get VERY strange things going on :) */
@@ -1551,8 +1553,7 @@ static void check_animated_pulldown_toggled_cb (GtkWidget *w)
      * than show and place the window. */
     if (!status)
     {
-        gtk_window_resize (GTK_WINDOW(tw->window), config_getint ("max_width"), config_getint ("max_height"));
-        gtk_window_move (GTK_WINDOW(tw->window), config_getint ("x_pos"), config_getint ("y_pos"));
+      tilda_window_reposition(tw);
     }
 
     /* Avoids a nasty looking glitch if you switch on animation while the window is
@@ -2226,7 +2227,7 @@ static void initialize_geometry_spinners() {
     SPIN_BUTTON_SET_RANGE("spin_y_position", 0, gdk_screen_height());
     SPIN_BUTTON_SET_VALUE("spin_y_position", ypos);
 
-    gtk_window_move(GTK_WINDOW(tw->window), xpos, ypos);
+    tilda_window_reposition(tw);
 
 	SET_SENSITIVE_BY_CONFIG_NBOOL("spin_x_position", "centered_horizontally");
 	SET_SENSITIVE_BY_CONFIG_NBOOL("label_x_position", "centered_horizontally");
