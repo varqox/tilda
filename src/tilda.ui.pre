@@ -1017,7 +1017,7 @@
                 <property name="margin_bottom">4</property>
                 <property name="row_spacing">4</property>
                 <property name="column_homogeneous">True</property>
-                <child>
+    <!--@VTE2.90<child> 
                   <object class="GtkFrame" id="frame_word_chars">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
@@ -1072,7 +1072,7 @@
                           </object>
                         </child>
                       </object>
-                    </child>
+                    </child>                 
                     <child type="label">
                       <object class="GtkLabel" id="label24">
                         <property name="visible">True</property>
@@ -1089,7 +1089,7 @@
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
-                </child>
+                </child>@VTE2.90-->    
                 <child>
                   <object class="GtkFrame" id="frame_url">
                     <property name="visible">True</property>
@@ -2028,8 +2028,8 @@
                                 <property name="width">1</property>
                                 <property name="height">1</property>
                               </packing>
-                            </child>
-                            <child>
+                            </child>                             
+                <!--@VTE2.90<child>
                               <object class="GtkFileChooserButton" id="button_background_image">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
@@ -2040,8 +2040,7 @@
                                 <property name="width">2</property>
                                 <property name="height">1</property>
                               </packing>
-                            </child>
-                            <child>
+                            </child>                              <child>
                               <object class="GtkCheckButton" id="check_use_image_for_background">
                                 <property name="label" translatable="yes">Use Image for Background</property>
                                 <property name="visible">True</property>
@@ -2056,7 +2055,7 @@
                                 <property name="width">1</property>
                                 <property name="height">1</property>
                               </packing>
-                            </child>
+                            </child>@VTE2.90-->                              
                             <child>
                               <object class="GtkCheckButton" id="check_animated_pulldown">
                                 <property name="label" translatable="yes">Animated Pulldown</property>
@@ -2807,8 +2806,8 @@
                             <property name="width">1</property>
                             <property name="height">1</property>
                           </packing>
-                        </child>
-                        <child>
+                        </child>                          
+           <!--@VTE2.90 <child>
                           <object class="GtkCheckButton" id="check_scroll_background">
                             <property name="label" translatable="yes">Scroll Background</property>
                             <property name="visible">True</property>
@@ -2823,7 +2822,7 @@
                             <property name="width">1</property>
                             <property name="height">1</property>
                           </packing>
-                        </child>
+                        </child>@VTE2.90-->                          
                         <child>
                           <object class="GtkGrid" id="grid5">
                             <property name="visible">True</property>
@@ -3934,4 +3933,4 @@
       <action-widget response="0">button_wizard_close</action-widget>
     </action-widgets>
   </object>
-</interface>
+</interface> 

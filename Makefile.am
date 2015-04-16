@@ -50,10 +50,8 @@ EXTRA_DIST = tilda.desktop.in tilda.png tilda.appdata.xml README.md
 tilda.desktop: tilda.desktop.in
 	sed -e 's|\@BINDIR\@|$(bindir)|' \
 		-e 's|\@PIXMAPSDIR\@|$(Pixmapsdir)|' $< > $@
-		
-		
+	
 ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
-
 
 bin_PROGRAMS = 
 
