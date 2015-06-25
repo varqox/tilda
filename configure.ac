@@ -112,8 +112,8 @@ if test "x$enable_lto" = "xyes"; then
     LDFLAGS="$LDFLAGS $CFLAGS -fuse-linker-plugin"
 fi
 
-AC_ARG_ENABLE([vte2.91],
-		[AS_HELP_STRING([--enable-vte2.91],
+AC_ARG_ENABLE([vte-2.91],
+		[AS_HELP_STRING([--enable-vte-2.91],
 						[compile with libvte2.91 [default=no]])],
 		[enable_vte_291=$enableval],
 		[enable_vte_291=no])
