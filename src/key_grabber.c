@@ -339,6 +339,14 @@ static void pull_down (struct tilda_window_ *tw) {
             process_all_pending_gtk_events ();
         }
         gint slide_sleep_usec = config_getint ("slide_sleep_usec");
+
+        // one certain window managers it maybe necessary to restore the size of the window
+        // after when it was in fullscreen mode before.
+        if (!tw->fullscreen) {
+            gtk_window_resize (GTK_WINDOW(tw->window),
+                               config_getint ("max_width"),
+                               config_getint ("max_height"));
+        }
         for (guint i=0; i<32; i++) {
             gtk_window_move (GTK_WINDOW(tw->window),
                              animation_coordinates[ANIMATION_DOWN][ANIMATION_X][i],
@@ -362,6 +370,13 @@ static void pull_down (struct tilda_window_ *tw) {
                              (guchar *) &atom, 1);
         }
     } else {
+        // one certain window managers it maybe necessary to restore the size of the window
+        // after when it was in fullscreen mode before.
+        if (!tw->fullscreen) {
+            gtk_window_resize (GTK_WINDOW(tw->window),
+                               config_getint ("max_width"),
+                               config_getint ("max_height"));
+        }
         gtk_window_move (GTK_WINDOW(tw->window), config_getint ("x_pos"), config_getint ("y_pos"));
     }
 
