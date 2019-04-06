@@ -42,6 +42,7 @@ static cfg_opt_t config_opts[] = {
     CFG_STR("command", "", CFGF_NONE),
     CFG_STR("font", "Monospace 11", CFGF_NONE),
     CFG_STR("key", NULL, CFGF_NONE),
+    CFG_STR("key2", NULL, CFGF_NONE),
     CFG_STR("addtab_key", "<Shift><Control>t", CFGF_NONE),
     CFG_STR("fullscreen_key", "F11", CFGF_NONE),
     CFG_STR("toggle_transparency_key", "F12", CFGF_NONE),

@@ -209,6 +209,7 @@ init_bindings_from_config (GtkListStore *list_store, GtkTreeIter *iter)
     const Keybinding bindings[] =
             {
                     {"Pull Down Terminal",  "key"},
+                    {"Pull Down Terminal",  "key2"},
                     {"Quit",                "quit_key"},
                     {"Add Tab",             "addtab_key"},
                     {"Close Tab",           "closetab_key"},
@@ -412,6 +413,13 @@ validate_keybindings (TildaKeybindingTreeView *keybindings,
                                                message))
                 return FALSE;
         }
+		else if (0 == g_strcmp0 ("key2", config_name)) {
+            const char *message = _ ("The keybinding you chose for \"Pull Down Terminal Alternative\" is invalid. Please choose another.");
+
+            if (!validate_pulldown_keybinding (shortcut, tw,
+                                               message))
+                return FALSE;
+		}
         else {
             gchar * message = g_strdup_printf (
                     _ ("The keybinding you chose for \"%s\" is invalid. Please choose another."),

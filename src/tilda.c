@@ -723,6 +723,7 @@ int main (int argc, char *argv[])
         /* We probably need a default key, too ... */
         gchar *default_key = g_strdup_printf ("F%d", tw.instance+1);
         config_setstr ("key", default_key);
+        config_setstr ("key2", default_key);
         g_free (default_key);
 
         need_wizard = TRUE;
@@ -746,12 +747,24 @@ int main (int argc, char *argv[])
                                                              message);
             wizard (&tw);
         }
+
+        ret = tilda_keygrabber_bind (config_getstr ("key2"), &tw);
+
+        if (!ret)
+        {
+            /* The key was unbindable, so we need to show the wizard */
+            const char *message = _("The keybinding you chose for \"Pull Down Terminal Alternative\" is invalid. Please choose another.");
+
+            tilda_keybinding_show_invalid_keybinding_dialog (NULL,
+                                                             message);
+            wizard (&tw);
+        }
     }
 
     pull (&tw, config_getbool ("hidden") ? PULL_UP : PULL_DOWN, FALSE);
 
-    g_print ("Tilda has started. Press %s to pull down the window.\n",
-        config_getstr ("key"));
+    g_print ("Tilda has started. Press %s or %s to pull down the window.\n",
+        config_getstr ("key"), config_getstr ("key2"));
     /* Whew! We're finally all set up and ready to run GTK ... */
     gtk_main();
 

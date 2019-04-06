@@ -124,6 +124,7 @@ gint wizard (tilda_window *tw)
      * let "someone else" grab the key, but it also saves us some trouble, and makes
      * validation easier. */
     tilda_keygrabber_unbind (config_getstr ("key"));
+    tilda_keygrabber_unbind (config_getstr ("key2"));
 
     /* Adding widget title for CSS selection */
     gtk_widget_set_name (GTK_WIDGET(tw->wizard_window), "Wizard");
